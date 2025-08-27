@@ -8,7 +8,7 @@ const Listing = require("../models/listing.js");
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   // let { error } = listingSchema.validate(req.body, { abortEarly: false }); //for all subsequent //consecutive error, to not stop on frst error(so details.map can be used)
-  console.log(error);
+  // console.log(error);
   if (error) {
     // let errMsg = error.details[0].message;
     // let errMsg = error.details.map((el) => el.message).join(" ,"); // so see all error if abortEarly is false
@@ -28,7 +28,8 @@ router.get(
   })
 );
 
-router.get("/listings/new", (req, res) => {
+// add new
+router.get("/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
@@ -39,6 +40,10 @@ router.get(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if (!listing) {
+      req.flash("error", "Listing you requested for does not exist!");
+      return res.redirect("/listings");
+    }
     res.render("listings/show.ejs", { listing });
   })
 );
@@ -53,6 +58,7 @@ router.post(
     // }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success", "New Listing Created");
     res.redirect("/listings");
   })
 );
@@ -63,7 +69,13 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing you requested for does not exist!");
+      return res.redirect("/listings");
+    }
+    // else {
     res.render("listings/edit.ejs", { listing });
+    // }
   })
 );
 
@@ -81,6 +93,7 @@ router.put(
       { ...req.body.listing },
       { runValidators: true }
     );
+    req.flash("success", "Listing Updated");
     res.redirect(`/listings/${id}`);
   })
 );
@@ -92,6 +105,7 @@ router.delete(
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
+    req.flash("success", "Listing Deleted");
     res.redirect("/listings");
   })
 );
