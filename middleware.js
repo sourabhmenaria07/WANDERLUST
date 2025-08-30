@@ -2,6 +2,7 @@ const Listing = require("./models/listing");
 const Review = require("./models/review");
 const { listingSchema, reviewSchema } = require("./schema");
 const ExpressError = require("./utils/ExpressError");
+const rateLimit = require("express-rate-limit");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -56,3 +57,9 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   }
   next();
 };
+
+module.exports.searchLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  message: "Too many searches, please slow down.",
+});
