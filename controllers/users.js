@@ -34,6 +34,10 @@ module.exports.login = async (req, res) => {
 };
 
 module.exports.logout = (req, res, next) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    req.flash("error", "You are not logged in!");
+    return res.redirect("/login");
+  }
   req.logout((err) => {
     if (err) {
       return next(err);

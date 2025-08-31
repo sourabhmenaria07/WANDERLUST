@@ -6,6 +6,7 @@ const {
   isOwner,
   validateListing,
   searchLimiter,
+  validateObjectId,
 } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer = require("multer");
@@ -26,15 +27,21 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 router
   .route("/:id")
-  .get(wrapAsync(listingController.showListing))
+  .get(validateObjectId, wrapAsync(listingController.showListing))
   .put(
+    validateObjectId,
     isLoggedIn,
     isOwner,
     upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.updateListing)
   )
-  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destoryListing));
+  .delete(
+    validateObjectId,
+    isLoggedIn,
+    isOwner,
+    wrapAsync(listingController.destoryListing)
+  );
 
 router.get(
   "/:id/edit",
