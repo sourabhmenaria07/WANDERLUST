@@ -20,6 +20,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
+const PORT = process.env.PORT || 8000;
 const dbUrl = process.env.ATLASDB_URL;
 
 main()
@@ -74,10 +75,12 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  res.locals.currUser = req.user;
+  res.locals.currUser = req.user || null;
   next();
 });
-
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 app.use("/listings", listingRouter);
 
 app.use("/listings/:id/reviews", reviewRouter);
@@ -93,6 +96,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("Server is listening");
 });

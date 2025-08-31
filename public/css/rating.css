@@ -48,6 +48,12 @@
   }
 }
 
+/* Small star rating for review lists */
+.starability-result.small {
+  transform: scale(0.4); /* shrink stars to 60% */
+  transform-origin: left center; /* keep stars aligned left */
+}
+
 @-webkit-keyframes coinFlip {
   0% {
     -webkit-transform: translateY(0);

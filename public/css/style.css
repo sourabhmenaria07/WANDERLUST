@@ -9,6 +9,12 @@ body {
   flex: 1;
 }
 
+/* res */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .navbar {
   height: 4rem;
   background-color: white;
@@ -71,7 +77,7 @@ body {
 }
 
 .card-body {
-  padding: 0 !important;
+  padding: 0.75rem !important;
 }
 
 .card-text p {
@@ -93,18 +99,27 @@ body {
   background-color: white;
 }
 
+.edit-btn {
+  background-color: #fe424d !important;
+  border: none !important;
+}
+.update-btn,
 .add-btn {
   background-color: #fe424d !important;
   border: none !important;
-}
-
-.update-btn {
-  background-color: #fe424d !important;
-  border: none !important;
+  padding: 0.75rem !important;
+  border-radius: 0.8rem !important;
 }
 
 .show-img {
-  height: 35vh;
+  height: 30vh;
+}
+
+@media (min-width: 768px) {
+  /* tablet & desktop */
+  .show-img {
+    height: 50vh;
+  }
 }
 
 .show-card {
@@ -118,6 +133,15 @@ body {
 }
 
 #map {
-  height: 400px;
-  width: 100vh;
+  height: 200px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  /* tablet & desktop */
+  #map {
+    height: 400px;
+  }
 }

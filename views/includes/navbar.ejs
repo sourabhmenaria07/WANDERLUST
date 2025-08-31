@@ -10,13 +10,73 @@
     color: #fff;
   }
   .search-btn i {
-    display: inline;
+    /* display: inline; */
     margin-right: 0.5rem;
   }
   .search-inp {
     border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
+    padding: 0.5rem 3rem;
     font-size: 1rem;
+    width: 420px;
+    max-width: 100%;
+  }
+  /* Center search on large screens */
+  @media (min-width: 992px) {
+    .search-desktop {
+      margin: 0 auto;
+    }
+    .search-mobile,
+    #mobileSearch {
+      display: none !important;
+    }
+  }
+  @media (max-width: 991px) {
+    .search-desktop {
+      display: none !important;
+    }
+    .search-mobile {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+    }
+    .search-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fe424d, #ff7eb9);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    #mobileSearch {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+      display: none;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+    #mobileSearch.active {
+      display: block;
+      max-height: 120px; /* expands downward */
+      margin-bottom: 10px;
+    }
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        z-index: 1000;
+      }
+      .navbar-nav .nav-link {
+        padding: 0.75rem 1rem; /* spacing for mobile menu */
+      }
+    }
   }
 </style>
 
@@ -25,6 +85,12 @@
     <a class="navbar-brand" href="/listings"
       ><i class="fa-solid fa-compass"></i
     ></a>
+    <div class="search-mobile d-md-none">
+      <div class="search-toggle" onclick="toggleSearch()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+
     <button
       class="navbar-toggler"
       type="button"
@@ -37,7 +103,7 @@
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
       </div>
-      <div class="navbar-nav ms-auto">
+      <div class="navbar-nav ms-auto search-desktop">
         <form class="d-flex" role="search" action="/listings" method="GET">
           <input
             class="form-control me-2 search-inp"
@@ -64,3 +130,23 @@
     </div>
   </div>
 </nav>
+
+<div id="mobileSearch" class="d-md-none">
+  <form class="d-flex mt-2" role="search" action="/listings" method="GET">
+    <input
+      class="form-control me-2 search-inp"
+      type="search"
+      name="q"
+      placeholder="Search destinations"
+    />
+    <button class="btn search-btn" type="submit">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+</div>
+
+<script>
+  function toggleSearch() {
+    document.getElementById("mobileSearch").classList.toggle("active");
+  }
+</script>

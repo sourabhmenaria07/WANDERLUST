@@ -2,6 +2,10 @@ const Listing = require("./models/listing");
 const Review = require("./models/review");
 const { listingSchema, reviewSchema } = require("./schema");
 const ExpressError = require("./utils/ExpressError");
+const express = require("express");
+const app = express();
+
+app.set("trust proxy", 1);
 const rateLimit = require("express-rate-limit");
 
 module.exports.isLoggedIn = (req, res, next) => {

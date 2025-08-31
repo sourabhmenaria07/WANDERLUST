@@ -1,16 +1,62 @@
 <% layout("/layouts/boilerplate") %>
 <body>
   <style>
-    #filters {
+    .filters-container {
+      position: relative;
+      margin: 1rem auto;
+      max-width: 95%;
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
     }
+    #filters {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+      flex: 1;
+      padding: 0.5rem 2rem;
+    }
+    #filters::-webkit-scrollbar {
+      display: none;
+    }
     .filter {
+      flex: 0 0 auto;
       text-align: center;
-      margin-right: 2rem;
-      margin-top: 2rem;
+      /* margin-right: 2rem;
+      margin-top: 2rem; */
       opacity: 0.7;
+    }
+    .scroll-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      z-index: 5;
+      /* visibility: hidden; */
+      opacity: 0; /* hide by default */
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .scroll-arrow.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .scroll-arrow.left {
+      left: -10px;
+    }
+    .scroll-arrow.right {
+      right: -10px;
     }
     .filter:hover {
       opacity: 1;
@@ -27,69 +73,82 @@
       border-radius: 1rem;
       height: 2.75rem;
       padding: 1rem;
-      margin-left: 3rem;
-      display: flex;
+      /* margin-left: 3rem; */
+      margin: 0.5rem 0 1rem 1rem;
+      display: inline-flex;
       align-items: center;
     }
   </style>
 
-  <div id="filters">
-    <div class="filter">
-      <div><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p>
+  <div class="filters-container">
+    <div class="scroll-arrow left" id="arrowLeft" onclick="scrollFilters(-200)">
+      <i class="fa-solid fa-chevron-left"></i>
     </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-bed"></i></div>
-      <p>Rooms</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-mountain-city"></i></div>
-      <p>Iconic Cities</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-mountain"></i></div>
-      <p>Mountains</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-brands fa-fort-awesome"></i></div>
-      <p>Castles</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-person-swimming"></i></div>
-      <p>Amazing Pools</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-campground"></i></div>
-      <p>Camping</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-cow"></i></div>
-      <p>Farms</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-snowflake"></i></div>
-      <p>Arctic</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-igloo"></i></div>
-      <p>Domes</p>
-    </div>
-    <div class="filter">
-      <div><i class="fa-solid fa-ship"></i></div>
-      <p>Boats</p>
-    </div>
-    <div class="tax-toogle">
-      <div class="form-check-reverse form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="switchCheckDefault"
-        />
-        <label class="form-check-label" for="switchCheckDefault"
-          >Display total after taxes</label
-        >
+    <div id="filters">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
       </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic Cities</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castles</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing Pools</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-cow"></i></div>
+        <p>Farms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Arctic</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-igloo"></i></div>
+        <p>Domes</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>Boats</p>
+      </div>
+    </div>
+    <div
+      class="scroll-arrow right"
+      id="arrowRight"
+      onclick="scrollFilters(200)"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+  </div>
+  <div class="tax-toogle">
+    <div class="form-check-reverse form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="switchCheckDefault"
+      />
+      <label class="form-check-label" for="switchCheckDefault"
+        >Display total after taxes</label
+      >
     </div>
   </div>
   <p class="text-muted">
@@ -161,15 +220,41 @@
 </body>
 
 <script>
+  const filters = document.getElementById("filters");
+  const arrowLeft = document.getElementById("arrowLeft");
+  const arrowRight = document.getElementById("arrowRight");
+  function updateArrows() {
+    const maxScroll = filters.scrollWidth - filters.clientWidth;
+
+    // Show/hide left arrow
+    if (filters.scrollLeft > 0) {
+      arrowLeft.classList.add("visible");
+    } else {
+      arrowLeft.classList.remove("visible");
+    }
+
+    // Show/hide right arrow
+    if (filters.scrollLeft < maxScroll) {
+      arrowRight.classList.add("visible");
+    } else {
+      arrowRight.classList.remove("visible");
+    }
+  }
+
+  function scrollFilters(amount) {
+    filters.scrollBy({ left: amount, behavior: "smooth" });
+  }
+
+  // Run on load, scroll, and resize
+  window.addEventListener("load", updateArrows);
+  window.addEventListener("resize", updateArrows);
+  filters.addEventListener("scroll", updateArrows);
+
   let taxSwitch = document.getElementById("switchCheckDefault");
   taxSwitch.addEventListener("click", () => {
-    let taxtInfo = document.getElementsByClassName("tax-info");
-    for (info of taxtInfo) {
-      if (info.style.display != "inline") {
-        info.style.display = "inline";
-      } else {
-        info.style.display = "none";
-      }
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (let info of taxInfo) {
+      info.style.display = info.style.display !== "inline" ? "inline" : "none";
     }
   });
 </script>

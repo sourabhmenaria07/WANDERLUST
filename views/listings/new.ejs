@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 <div class="row">
-  <div class="col-6 mx-auto">
-    <h3 class="mb-3 mt-3">Create New Listing</h3>
+  <div class="col-12 col-md-8 col-lg-6 mx-auto">
+    <h3 class="mb-3 mt-3 text-center text-md-start">Create New Listing</h3>
     <form
       method="POST"
       action="/listings"
@@ -46,7 +46,7 @@
         <div class="invalid-feedback">Upload a Listing Image</div>
       </div>
       <div class="row">
-        <div class="mb-3 col-md-5">
+        <div class="mb-3 col-12 col-md-5">
           <label for="price" class="form-label fw-semibold">Price</label>
           <input
             name="listing[price]"
@@ -58,7 +58,7 @@
           />
           <div class="invalid-feedback">Enter a valid price</div>
         </div>
-        <div class="mb-3 col-md-7">
+        <div class="mb-3 col-12 col-md-7">
           <label for="country" class="form-label fw-semibold">Country</label>
           <input
             name="listing[country]"
@@ -83,7 +83,9 @@
         />
         <div class="invalid-feedback">Enter a valid location</div>
       </div>
-      <button class="btn btn-dark add-btn mb-3">Add</button>
+      <div class="d-grid">
+        <button class="btn btn-dark add-btn mb-3">Add</button>
+      </div>
     </form>
   </div>
 </div>
