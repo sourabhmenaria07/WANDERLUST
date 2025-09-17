@@ -48,7 +48,7 @@ module.exports.showListing = async (req, res) => {
   res.render("listings/show.ejs", { listing });
 };
 
-module.exports.createListing = async (req, res, next) => {
+module.exports.createListing = async (req, res) => {
   let location = req.body.listing.location;
   const result = await geocoding.forward(location, { limit: 1 });
 

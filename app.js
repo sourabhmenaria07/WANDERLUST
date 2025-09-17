@@ -4,6 +4,7 @@ if (process.env.NODE_ENV != "production") {
 
 const express = require("express");
 const app = express();
+app.set("trust proxy", 1); // '1' means trust first proxy, good for single proxy setups
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
